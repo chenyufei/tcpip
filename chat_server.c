@@ -73,11 +73,22 @@ void * handle_clnt(void*arg)
 	int i;
 	char msg[BUF_SIZE];
 
-	while(0 != (str_len=read(clnt_sock,msg,sizeof(msg))))
+	while(1)
 	{
-		send_msg(msg,str_len);
+		str_len=read(clnt_sock,msg,sizeof(msg));
+		printf("str_len=%d\n",str_len);
+		if(str_len > 0)
+		{
+			send_msg(msg,str_len);
+		}
+		else
+		{
+			printf("read error\n");
+			break;
+		}
 	}
 
+	printf("close sock\n");
 	pthread_mutex_lock(&mutx);
 	for(i=0;i<clnt_cnt;i++)
 	{
