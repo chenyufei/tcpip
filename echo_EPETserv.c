@@ -72,7 +72,7 @@ int main(int argc,char*argv[])
 				adr_sz = sizeof(clnt_adr);
 				clnt_sock = accept(serv_sock,(struct sockaddr*)&clnt_adr,&adr_sz);
 				setnonblockingmode(clnt_sock);
-				event.events=EPOLLIN|EPOLLET;
+				event.events=EPOLLIN|EPOLLET;//边缘触发，只触发一次
 				event.data.fd = clnt_sock;
 				epoll_ctl(epfd,EPOLL_CTL_ADD,clnt_sock,&event);
 				printf("connected client: %d \n",clnt_sock);
